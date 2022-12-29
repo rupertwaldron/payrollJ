@@ -1,6 +1,4 @@
-package com.ruppyrup.core.persister;
-
-import com.ruppyrup.core.models.Employee;
+package com.ruppyrup.persistance;
 
 import java.util.Iterator;
 

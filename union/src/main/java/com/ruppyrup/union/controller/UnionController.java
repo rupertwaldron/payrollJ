@@ -1,7 +1,7 @@
 package com.ruppyrup.union.controller;
 
 import com.ruppyrup.core.models.Employee;
-import com.ruppyrup.core.persister.EmployeePersister;
+import com.ruppyrup.persistance.EmployeePersister;
 import com.ruppyrup.union.requests.UnionRequest;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;

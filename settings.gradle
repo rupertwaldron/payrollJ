@@ -13,4 +13,5 @@ include 'policy'
 include 'operations'
 include 'union'
 include 'core'
+include 'persistance'
 

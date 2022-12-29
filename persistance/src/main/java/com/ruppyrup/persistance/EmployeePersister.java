@@ -1,4 +1,4 @@
-package com.ruppyrup.core.persister;
+package com.ruppyrup.persistance;
 
 import com.ruppyrup.core.models.Employee;
 import org.springframework.stereotype.Repository;

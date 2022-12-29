@@ -3,8 +3,8 @@ package com.ruppyrup.operations.controller;
 import com.ruppyrup.operations.factories.EmployeeFactory;
 import com.ruppyrup.core.models.Employee;
 import com.ruppyrup.core.paytypes.HourlyPayType;
-import com.ruppyrup.core.persister.EmployeePersister;
 import com.ruppyrup.operations.requests.CreateEmployeeRequest;
+import com.ruppyrup.persistance.EmployeePersister;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Iterator;
