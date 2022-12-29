@@ -1,0 +1,19 @@
+plugins {
+    id 'com.ruppyrup.java-application-conventions'
+}
+
+group 'com.ruppyrup.policy'
+version 'unspecified'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+}
+
+application {
+    // Define the main class for the application.
+    mainClass = 'com.ruppyrup.policy.Main'
+}
