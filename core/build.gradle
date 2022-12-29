@@ -8,5 +8,4 @@ group 'com.ruppyrup.core'
 version 'unspecified'
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
 }
