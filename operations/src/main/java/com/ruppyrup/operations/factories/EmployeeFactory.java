@@ -1,4 +1,4 @@
-package com.ruppyrup.core.factories;
+package com.ruppyrup.operations.factories;
 
 import com.ruppyrup.core.models.Employee;
 import com.ruppyrup.core.paymethods.BankPayMethod;
@@ -6,7 +6,7 @@ import com.ruppyrup.core.payschedules.MonthlyPaySchedule;
 import com.ruppyrup.core.payschedules.WeeklyPaySchedule;
 import com.ruppyrup.core.paytypes.HourlyPayType;
 import com.ruppyrup.core.paytypes.SalaryPayType;
-import com.ruppyrup.core.requests.CreateEmployeeRequest;
+import com.ruppyrup.operations.requests.CreateEmployeeRequest;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,4 +1,4 @@
-package com.ruppyrup.core.requests;
+package com.ruppyrup.operations.requests;
 
 public record CreateEmployeeRequest(
     String name,

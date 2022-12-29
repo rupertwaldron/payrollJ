@@ -1,10 +1,10 @@
 package com.ruppyrup.operations.controller;
 
-import com.ruppyrup.core.factories.EmployeeFactory;
+import com.ruppyrup.operations.factories.EmployeeFactory;
 import com.ruppyrup.core.models.Employee;
 import com.ruppyrup.core.paytypes.HourlyPayType;
 import com.ruppyrup.core.persister.EmployeePersister;
-import com.ruppyrup.core.requests.CreateEmployeeRequest;
+import com.ruppyrup.operations.requests.CreateEmployeeRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Iterator;

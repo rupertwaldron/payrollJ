@@ -1,7 +1,6 @@
 package com.ruppyrup.core.persister;
 
 import com.ruppyrup.core.models.Employee;
-import com.ruppyrup.core.requests.CreateEmployeeRequest;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
