@@ -13,3 +13,12 @@ dependencies {
     implementation project(':core')
     implementation project(':persistance')
 }
+
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}

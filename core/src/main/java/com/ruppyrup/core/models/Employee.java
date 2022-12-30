@@ -26,6 +26,8 @@ public class Employee {
         if (paySchedule.canPayEmployee(LocalDateTime.now())) {
             float amountToPay = payType.calculatePay();
             payMethod.pay(this.name, amountToPay);
+        } else {
+            System.out.println(this.name + " is not due to be paid now");
         }
     }
 }

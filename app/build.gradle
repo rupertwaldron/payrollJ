@@ -15,4 +15,5 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation project(':operations')
     implementation project(':union')
+    implementation project(':policy')
 }

@@ -1,19 +1,23 @@
 plugins {
-    id 'com.ruppyrup.java-application-conventions'
+    id 'com.ruppyrup.java-library-conventions'
+    id 'org.springframework.boot' version '3.0.1'
+    id 'io.spring.dependency-management' version '1.1.0'
 }
 
-group 'com.ruppyrup.policy'
+group 'com.ruppyrup.operations'
 version 'unspecified'
 
-repositories {
-    mavenCentral()
-}
 
 dependencies {
-
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation project(':core')
 }
 
-application {
-    // Define the main class for the application.
-    mainClass = 'com.ruppyrup.policy.Main'
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
 }
