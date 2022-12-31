@@ -1,8 +1,10 @@
 package com.ruppyrup.core.paytypes;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class HourlyPayType implements PayType {
     private int weeklyHours;
     private float hourlyRate;

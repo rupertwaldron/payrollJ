@@ -3,9 +3,7 @@ package com.ruppyrup.persistance;
 import com.ruppyrup.core.models.Employee;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class EmployeePersister implements Persister<Employee> {
@@ -19,8 +17,8 @@ public class EmployeePersister implements Persister<Employee> {
     }
 
     @Override
-    public Iterator<Employee> getAll() {
-        return employees.values().iterator();
+    public List<Employee> getAll() {
+        return employees.values().stream().toList();
     }
 
     @Override

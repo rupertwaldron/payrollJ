@@ -3,13 +3,16 @@ package com.ruppyrup.core.models;
 import com.ruppyrup.core.paymethods.PayMethod;
 import com.ruppyrup.core.payschedules.PaySchedule;
 import com.ruppyrup.core.paytypes.PayType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Data
+@EqualsAndHashCode
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Employee {
     private String name;
     private Long id;

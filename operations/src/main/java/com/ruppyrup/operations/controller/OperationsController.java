@@ -5,9 +5,10 @@ import com.ruppyrup.core.models.Employee;
 import com.ruppyrup.core.paytypes.HourlyPayType;
 import com.ruppyrup.operations.requests.CreateEmployeeRequest;
 import com.ruppyrup.persistance.EmployeePersister;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Iterator;
+import java.util.List;
 
 @RestController
 public class OperationsController {
@@ -21,8 +22,9 @@ public class OperationsController {
     }
 
     @GetMapping("/employees")
-    public Iterator<Employee> getEmployees() {
-        return employeePersister.getAll();
+    public ResponseEntity<List<Employee>> getEmployees() {
+        List<Employee> employees = employeePersister.getAll();
+        return ResponseEntity.ok(employees);
     }
 
     @GetMapping("/employees/{id}")
@@ -48,6 +50,6 @@ public class OperationsController {
 
     @GetMapping("/employees/paynow")
     public void payAllEmployees() {
-        employeePersister.getAll().forEachRemaining(Employee::pay);
+        employeePersister.getAll().forEach(Employee::pay);
     }
 }
