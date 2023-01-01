@@ -6,13 +6,13 @@ import com.ruppyrup.core.payschedules.MonthlyPaySchedule;
 import com.ruppyrup.core.payschedules.WeeklyPaySchedule;
 import com.ruppyrup.core.paytypes.HourlyPayType;
 import com.ruppyrup.core.paytypes.SalaryPayType;
-import com.ruppyrup.operations.requests.CreateEmployeeRequest;
+import com.ruppyrup.operations.requests.EmployeeDTO;
 import org.springframework.stereotype.Component;
 
 @Component
 public class EmployeeFactory {
 
-    public Employee createEmployee(CreateEmployeeRequest employeeRequest) {
+    public Employee createEmployee(EmployeeDTO employeeRequest) {
         if (employeeRequest.payType() == null) {
             throw new RuntimeException("Error creating employee " + employeeRequest);
         }

@@ -1,5 +1,8 @@
 package com.ruppyrup.core.paymethods;
 
+import lombok.Data;
+
+@Data
 public class BankPayMethod extends PayMethod {
     private String accountNumber;
 

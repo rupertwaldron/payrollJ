@@ -1,10 +1,11 @@
 package com.ruppyrup.app;
 
 import com.ruppyrup.core.models.Employee;
-import com.ruppyrup.core.paytypes.SalaryPayType;
 import com.ruppyrup.operations.factories.EmployeeFactory;
-import com.ruppyrup.operations.requests.CreateEmployeeRequest;
+import com.ruppyrup.operations.requests.EmployeeDTO;
+import com.ruppyrup.operations.utilities.EmployeeConverter;
 import com.ruppyrup.persistance.EmployeePersister;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,11 +38,12 @@ public class PayrollAppIntegrationTest {
     private EmployeeFactory employeeFactory;
 
     private HttpHeaders headers;
-    private Employee employee;
+    private Employee employee1;
+    private Employee employee2;
 
     @BeforeEach
     void beforeEach() {
-        CreateEmployeeRequest request = new CreateEmployeeRequest(
+        EmployeeDTO dto1 = new EmployeeDTO(
                 "Bob",
                 "",
                 "",
@@ -51,13 +53,30 @@ public class PayrollAppIntegrationTest {
                 "1234",
                 27
         );
-        employee = employeeFactory.createEmployee(request);
-        persister.save(employee);
+        EmployeeDTO dto2 = new EmployeeDTO(
+                "Ted",
+                "",
+                "",
+                "hourly",
+                0,
+                20.0f,
+                "99944",
+                11
+        );
+        employee1 = employeeFactory.createEmployee(dto1);
+        employee2 = employeeFactory.createEmployee(dto2);
+        persister.save(employee1);
+        persister.save(employee2);
 
         List<MediaType> mediaTypes = new ArrayList<>();
         mediaTypes.add(MediaType.APPLICATION_JSON);
         headers = new HttpHeaders();
         headers.setAccept(mediaTypes);
+    }
+
+    @AfterEach
+    void clearUp() {
+        persister.clearAll();
     }
 
     @Test
@@ -70,12 +89,105 @@ public class PayrollAppIntegrationTest {
                 .path("employees")
                 .build();
 
-        ResponseEntity<Employee[]> response = restTemplate.exchange(uriComponents.toUriString(), HttpMethod.GET, entity, Employee[].class);
-        Employee result = response.getBody()[0];
+        ResponseEntity<EmployeeDTO[]> response = restTemplate.exchange(uriComponents.toUriString(), HttpMethod.GET, entity, EmployeeDTO[].class);
+        EmployeeDTO result = response.getBody()[0];
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
-        assertThat(result.getName(), is("bob"));
-        assertThat(result.getId(), is(0));
-        assertThat(result.isUnionMember(), is(false));
-        assertThat(((SalaryPayType)result.getPayType()).getSalary(), is(50000));
+        assertThat(result.name(), is("Bob"));
+        assertThat(result.salary(), is(50000.0F));
+        assertThat(result.paySchedule(), is("MonthlyPaySchedule"));
+        assertThat(result.accountNumber(), is("1234"));
+        assertThat(result.payMethod(), is("BankPayMethod"));
+        assertThat(result.payType(), is("SalaryPayType"));
+    }
+
+    @Test
+    void fetchOneEmployees() {
+        HttpEntity<String> entity = new HttpEntity<>(null, headers);
+        UriComponents uriComponents = UriComponentsBuilder.newInstance()
+                .scheme("http")
+                .host("localhost")
+                .port(port)
+                .path("employees/0")
+                .build();
+
+        ResponseEntity<EmployeeDTO> response = restTemplate.exchange(uriComponents.toUriString(), HttpMethod.GET, entity, EmployeeDTO.class);
+        EmployeeDTO result = response.getBody();
+        assertThat(response.getStatusCode(), is(HttpStatus.OK));
+        assertThat(result.name(), is("Bob"));
+        assertThat(result.salary(), is(50000.0F));
+        assertThat(result.paySchedule(), is("MonthlyPaySchedule"));
+        assertThat(result.accountNumber(), is("1234"));
+        assertThat(result.payMethod(), is("BankPayMethod"));
+        assertThat(result.payType(), is("SalaryPayType"));
+    }
+
+    @Test
+    void saveEmployee() {
+        EmployeeDTO request = new EmployeeDTO(
+                "Fred",
+                "",
+                "",
+                "hourly",
+                60000f,
+                10.0f,
+                "557788",
+                40
+        );
+        HttpEntity<EmployeeDTO> entity = new HttpEntity<>(request, headers);
+        UriComponents uriComponents = UriComponentsBuilder.newInstance()
+                .scheme("http")
+                .host("localhost")
+                .port(port)
+                .path("employees")
+                .build();
+
+        restTemplate.exchange(uriComponents.toUriString(), HttpMethod.POST, entity, EmployeeDTO.class);
+
+        EmployeeDTO result = persister.getAll().stream()
+                .map(EmployeeConverter::from)
+                .filter(dto -> "Fred".equals(dto.name()))
+                .findFirst()
+                .get();
+
+        assertThat(result.name(), is("Fred"));
+        assertThat(result.hourlyRate(), is(10.0F));
+        assertThat(result.paySchedule(), is("WeeklyPaySchedule"));
+        assertThat(result.accountNumber(), is("557788"));
+        assertThat(result.payMethod(), is("BankPayMethod"));
+        assertThat(result.payType(), is("HourlyPayType"));
+    }
+
+    @Test
+    void updateEmployee() {
+        EmployeeDTO request = new EmployeeDTO(
+                "",
+                "",
+                "",
+                "",
+                0,
+                0,
+                "0",
+                27
+        );
+
+        HttpEntity<EmployeeDTO> entity = new HttpEntity<>(request, headers);
+        UriComponents uriComponents = UriComponentsBuilder.newInstance()
+                .scheme("http")
+                .host("localhost")
+                .port(port)
+                .path("employees/1")
+                .build();
+
+        restTemplate.exchange(uriComponents.toUriString(), HttpMethod.PUT, entity, EmployeeDTO.class);
+
+        EmployeeDTO result = EmployeeConverter.from(persister.get(1));
+
+        assertThat(result.name(), is("Ted"));
+        assertThat(result.hourlyRate(), is(20.0F));
+        assertThat(result.paySchedule(), is("WeeklyPaySchedule"));
+        assertThat(result.accountNumber(), is("99944"));
+        assertThat(result.payMethod(), is("BankPayMethod"));
+        assertThat(result.payType(), is("HourlyPayType"));
+        assertThat(result.weeklyHours(), is(27));
     }
 }

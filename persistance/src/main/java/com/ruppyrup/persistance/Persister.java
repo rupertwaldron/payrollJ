@@ -8,4 +8,5 @@ public interface Persister<T> {
     List<T> getAll();
     void save(T t);
 
+    void clearAll();
 }

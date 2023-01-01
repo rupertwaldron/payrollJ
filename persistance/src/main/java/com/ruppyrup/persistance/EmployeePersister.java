@@ -26,4 +26,10 @@ public class EmployeePersister implements Persister<Employee> {
         employee.setId(nextId);
         employees.put(nextId++, employee);
     }
+
+    @Override
+    public void clearAll() {
+        nextId = 0;
+        employees.clear();
+    }
 }
