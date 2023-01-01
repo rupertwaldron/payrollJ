@@ -28,3 +28,11 @@ tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
+
+//tasks.withType(Jar).configureEach {
+//    manifest {
+//        attributes('Main-Class': 'com.ruppyrup.app.PayrollApplication')
+//    }
+//    archivesBaseName = rootProject.name + '-' + project.name
+//    archiveVersion = project.version
+//}

@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'com.ruppyrup.operations'
-version 'unspecified'
+version '0.0.1-SHAPSHOT'
 
 
 dependencies {

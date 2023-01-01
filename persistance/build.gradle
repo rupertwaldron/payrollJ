@@ -4,8 +4,8 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.0'
 }
 
-group 'com.ruppyrup.operations'
-version 'unspecified'
+group 'com.ruppyrup.persistance'
+version '0.0.1-SHAPSHOT'
 
 
 dependencies {
