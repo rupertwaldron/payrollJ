@@ -8,5 +8,8 @@ public record EmployeeDTO(
     float salary,
     float hourlyRate,
     String accountNumber,
-    int weeklyHours
+    int weeklyHours,
+    String lastInstruction,
+    boolean isUnionMember
+
     ){}

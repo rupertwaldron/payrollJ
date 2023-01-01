@@ -23,7 +23,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class PayrollAppIntegrationTest {
+public class OperationsControllerIntegrationTest {
 
     @LocalServerPort
     private int port;
@@ -51,7 +51,9 @@ public class PayrollAppIntegrationTest {
                 50000f,
                 10.0f,
                 "1234",
-                27
+                27,
+                "",
+                false
         );
         EmployeeDTO dto2 = new EmployeeDTO(
                 "Ted",
@@ -61,7 +63,9 @@ public class PayrollAppIntegrationTest {
                 0,
                 20.0f,
                 "99944",
-                11
+                11,
+                "",
+                false
         );
         employee1 = employeeFactory.createEmployee(dto1);
         employee2 = employeeFactory.createEmployee(dto2);
@@ -131,7 +135,9 @@ public class PayrollAppIntegrationTest {
                 60000f,
                 10.0f,
                 "557788",
-                40
+                40,
+                "",
+                false
         );
         HttpEntity<EmployeeDTO> entity = new HttpEntity<>(request, headers);
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
@@ -144,7 +150,7 @@ public class PayrollAppIntegrationTest {
         restTemplate.exchange(uriComponents.toUriString(), HttpMethod.POST, entity, EmployeeDTO.class);
 
         EmployeeDTO result = persister.getAll().stream()
-                .map(EmployeeConverter::from)
+                .map(EmployeeConverter::fromEmployee)
                 .filter(dto -> "Fred".equals(dto.name()))
                 .findFirst()
                 .get();
@@ -167,7 +173,9 @@ public class PayrollAppIntegrationTest {
                 0,
                 0,
                 "0",
-                27
+                27,
+                "",
+                false
         );
 
         HttpEntity<EmployeeDTO> entity = new HttpEntity<>(request, headers);
@@ -180,7 +188,7 @@ public class PayrollAppIntegrationTest {
 
         restTemplate.exchange(uriComponents.toUriString(), HttpMethod.PUT, entity, EmployeeDTO.class);
 
-        EmployeeDTO result = EmployeeConverter.from(persister.get(1));
+        EmployeeDTO result = EmployeeConverter.fromEmployee(persister.get(1));
 
         assertThat(result.name(), is("Ted"));
         assertThat(result.hourlyRate(), is(20.0F));
@@ -190,4 +198,25 @@ public class PayrollAppIntegrationTest {
         assertThat(result.payType(), is("HourlyPayType"));
         assertThat(result.weeklyHours(), is(27));
     }
+
+    @Test
+    void payEmployees() {
+        HttpEntity<String> entity = new HttpEntity<>(null, headers);
+        UriComponents uriComponents = UriComponentsBuilder.newInstance()
+                .scheme("http")
+                .host("localhost")
+                .port(port)
+                .path("employees/paynow")
+                .build();
+
+
+        restTemplate.exchange(uriComponents.toUriString(), HttpMethod.GET, entity, String.class);
+
+        EmployeeDTO result = EmployeeConverter.fromEmployee(persister.get(1));
+
+        assertThat(result.name(), is("Ted"));
+        assertThat(result.lastInstruction(), is("Ted has been paid £0.0 into account number :: 99944"));
+    }
+
+
 }

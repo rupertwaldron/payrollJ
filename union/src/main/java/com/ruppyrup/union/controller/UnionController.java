@@ -3,10 +3,7 @@ package com.ruppyrup.union.controller;
 import com.ruppyrup.core.models.Employee;
 import com.ruppyrup.persistance.EmployeePersister;
 import com.ruppyrup.union.requests.UnionRequest;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UnionController {
@@ -17,7 +14,7 @@ public class UnionController {
         this.employeePersister = employeePersister;
     }
 
-    @PatchMapping("/union/{id}")
+    @PutMapping("/union/{id}")
     public void updateUnionMembership(@PathVariable long id, @RequestBody UnionRequest request) {
         Employee employee = employeePersister.get(id);
         employee.setUnionMember(request.hasSignedUp());

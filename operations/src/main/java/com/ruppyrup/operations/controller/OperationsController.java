@@ -25,7 +25,7 @@ public class OperationsController {
     @GetMapping("/employees")
     public ResponseEntity<List<EmployeeDTO>> getEmployees() {
         List<EmployeeDTO> employees = employeePersister.getAll().stream()
-                .map(EmployeeConverter::from)
+                .map(EmployeeConverter::fromEmployee)
                 .toList();
         return ResponseEntity.ok(employees);
     }
@@ -33,7 +33,7 @@ public class OperationsController {
     @GetMapping("/employees/{id}")
     public ResponseEntity<EmployeeDTO> getEmployee(@PathVariable long id) {
         Employee employee = employeePersister.get(id);
-        return ResponseEntity.ok(EmployeeConverter.from(employee));
+        return ResponseEntity.ok(EmployeeConverter.fromEmployee(employee));
     }
 
     @PostMapping("/employees")
