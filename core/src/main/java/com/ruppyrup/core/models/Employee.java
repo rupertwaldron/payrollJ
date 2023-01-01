@@ -5,7 +5,6 @@ import com.ruppyrup.core.payschedules.PaySchedule;
 import com.ruppyrup.core.paytypes.PayType;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @EqualsAndHashCode

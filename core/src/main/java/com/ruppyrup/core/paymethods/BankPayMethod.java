@@ -2,12 +2,12 @@ package com.ruppyrup.core.paymethods;
 
 import lombok.Data;
 
-@Data
-public class BankPayMethod extends PayMethod {
+
+public class BankPayMethod implements PayMethod {
     private String accountNumber;
+    protected String lastInstruction;
 
     public BankPayMethod(String accountNumber) {
-        super();
         this.accountNumber = accountNumber;
     }
 
@@ -16,6 +16,16 @@ public class BankPayMethod extends PayMethod {
         String instruction = name+ " has been paid £" + amount + " into account number :: " + accountNumber;
         this.lastInstruction = instruction;
         System.out.println(instruction);
+    }
+
+    @Override
+    public String getLastInstruction() {
+        return lastInstruction;
+    }
+
+    @Override
+    public String getPaymentDetails() {
+        return accountNumber;
     }
 
     @Override

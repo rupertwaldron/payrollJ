@@ -2,6 +2,10 @@ package com.ruppyrup.core.schedulepolicies;
 
 
 public final class SchedulePolicy {
+
+    private SchedulePolicy() {
+    }
+
     private static volatile int WEEKLY_SCHEDULE = 7;
     private static volatile int MONTHLY_SCHEDULE = 31;
 

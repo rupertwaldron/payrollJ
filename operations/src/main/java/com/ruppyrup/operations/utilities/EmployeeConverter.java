@@ -8,6 +8,9 @@ import com.ruppyrup.operations.requests.EmployeeDTO;
 
 public final class EmployeeConverter {
 
+    private EmployeeConverter() {
+    }
+
     public static EmployeeDTO fromEmployee(Employee employee) {
 
         float salary = 0;
@@ -28,7 +31,7 @@ public final class EmployeeConverter {
                 employee.getPayType().getClass().getSimpleName(),
                 salary,
                 hourlyRate,
-                ((BankPayMethod)employee.getPayMethod()).getAccountNumber(),
+                employee.getPayMethod().getPaymentDetails(),
                 weeklyHours,
                 employee.getPayMethod().getLastInstruction(),
                 employee.isUnionMember()

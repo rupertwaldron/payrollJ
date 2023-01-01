@@ -3,13 +3,15 @@ package com.ruppyrup.persistance;
 import com.ruppyrup.core.models.Employee;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Repository
 public class EmployeePersister implements Persister<Employee> {
 
-    private static final Map<Long, Employee> employees = new HashMap<>();
-    private static long nextId;
+    private final Map<Long, Employee> employees = new HashMap<>();
+    private long nextId;
 
     @Override
     public Employee get(long id) {
