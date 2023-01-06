@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'com.ruppyrup.policy'
-version '0.0.1-SHAPSHOT'
+version '0.0.2-SHAPSHOT'
 
 
 dependencies {

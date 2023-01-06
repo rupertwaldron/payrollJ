@@ -41,3 +41,28 @@ tasks.register('runJar', JavaExec) {
     classpath configurations.runtimeClasspath
     mainClass = 'com.ruppyrup.app.PayrollApplication'
 }
+
+tasks.register('copyZips', Copy) {
+    group 'application'
+    from tasks.named('jar').map{it.outputs }
+    into rootProject.file('dest')
+}
+
+tasks.register('copyJars', Copy) {
+    group 'application'
+    from configurations.runtimeClasspath
+    into rootProject.file('dest/libs')
+}
+
+//tasks.register('runMyJars', JavaExec) {
+//    group 'application'
+//    classpath tasks.named('copyJars') {it.outputs}
+//    classpath tasks.named('copyZips') {it.outputs}
+//    mainClass = 'com.ruppyrup.app.PayrollApplication'
+//}
+
+tasks.register('copyAgain', Copy) {
+    group 'application'
+    from fileTree(layout.projectDirectory.dir('dest'))
+    into rootProject.file('dest2')
+}
