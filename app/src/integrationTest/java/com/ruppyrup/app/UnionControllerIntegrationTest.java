@@ -50,7 +50,6 @@ public class UnionControllerIntegrationTest {
                 "",
                 "monthly",
                 50000f,
-                10.0f,
                 "1234",
                 27,
                 "",
@@ -60,8 +59,7 @@ public class UnionControllerIntegrationTest {
                 "Ted",
                 "",
                 "",
-                "hourly",
-                0,
+                "weekly",
                 20.0f,
                 "99944",
                 11,
@@ -100,7 +98,7 @@ public class UnionControllerIntegrationTest {
         EmployeeDTO result = EmployeeConverter.fromEmployee(persister.get(1));
 
         assertThat(result.name(), is("Ted"));
-        assertThat(result.hourlyRate(), is(20.0F));
+        assertThat(result.pay(), is(20.0F));
         assertThat(result.paySchedule(), is("WeeklyPaySchedule"));
         assertThat(result.accountNumber(), is("99944"));
         assertThat(result.payMethod(), is("BankPayMethod"));

@@ -1,12 +1,7 @@
 package com.ruppyrup.app;
 
-import com.ruppyrup.core.models.Employee;
-import com.ruppyrup.operations.factories.EmployeeFactory;
-import com.ruppyrup.operations.requests.EmployeeDTO;
-import com.ruppyrup.operations.utilities.EmployeeConverter;
-import com.ruppyrup.persistance.EmployeePersister;
+import com.ruppyrup.corepolicy.schedulepolicies.SchedulePolicy;
 import com.ruppyrup.policy.requests.PolicyRequest;
-import com.ruppyrup.union.requests.UnionRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,14 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ruppyrup.core.schedulepolicies.SchedulePolicy.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
@@ -33,6 +32,12 @@ public class PolicyControllerIntegrationTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
+
+    @Autowired
+    private SchedulePolicy monthlySchedulePolicy;
+
+    @Autowired
+    private SchedulePolicy weeklySchedulePolicy;
 
     private HttpHeaders headers;
 
@@ -46,8 +51,8 @@ public class PolicyControllerIntegrationTest {
 
     @AfterEach
     void clearUp() {
-        setWeeklySchedule(7);
-        setMonthlySchedule(31);
+        weeklySchedulePolicy.setPolicyData(7);
+        monthlySchedulePolicy.setPolicyData(31);
     }
 
 
@@ -81,8 +86,8 @@ public class PolicyControllerIntegrationTest {
 
         restTemplate.exchange(uriComponents.toUriString(), HttpMethod.PUT, entity, String.class);
 
-        assertThat(getMonthlySchedule(), is(32));
-        assertThat(getWeeklySchedule(), is(8));
+        assertThat(monthlySchedulePolicy.fetchPolicyData(), is(32));
+        assertThat(weeklySchedulePolicy.fetchPolicyData(), is(8));
 
     }
 }

@@ -1,5 +1,6 @@
 package com.ruppyrup.app;
 
+
 import com.ruppyrup.core.models.Employee;
 import com.ruppyrup.operations.factories.EmployeeFactory;
 import com.ruppyrup.operations.requests.EmployeeDTO;
@@ -49,7 +50,6 @@ public class OperationsControllerIntegrationTest {
                 "",
                 "monthly",
                 50000f,
-                10.0f,
                 "1234",
                 27,
                 "",
@@ -59,8 +59,7 @@ public class OperationsControllerIntegrationTest {
                 "Ted",
                 "",
                 "",
-                "hourly",
-                0,
+                "weekly",
                 20.0f,
                 "99944",
                 11,
@@ -97,7 +96,7 @@ public class OperationsControllerIntegrationTest {
         EmployeeDTO result = response.getBody()[0];
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
         assertThat(result.name(), is("Bob"));
-        assertThat(result.salary(), is(50000.0F));
+        assertThat(result.pay(), is(50000.0F));
         assertThat(result.paySchedule(), is("MonthlyPaySchedule"));
         assertThat(result.accountNumber(), is("1234"));
         assertThat(result.payMethod(), is("BankPayMethod"));
@@ -118,7 +117,7 @@ public class OperationsControllerIntegrationTest {
         EmployeeDTO result = response.getBody();
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
         assertThat(result.name(), is("Bob"));
-        assertThat(result.salary(), is(50000.0F));
+        assertThat(result.pay(), is(50000.0F));
         assertThat(result.paySchedule(), is("MonthlyPaySchedule"));
         assertThat(result.accountNumber(), is("1234"));
         assertThat(result.payMethod(), is("BankPayMethod"));
@@ -131,8 +130,7 @@ public class OperationsControllerIntegrationTest {
                 "Fred",
                 "",
                 "",
-                "hourly",
-                60000f,
+                "weekly",
                 10.0f,
                 "557788",
                 40,
@@ -156,7 +154,7 @@ public class OperationsControllerIntegrationTest {
                 .get();
 
         assertThat(result.name(), is("Fred"));
-        assertThat(result.hourlyRate(), is(10.0F));
+        assertThat(result.pay(), is(10.0F));
         assertThat(result.paySchedule(), is("WeeklyPaySchedule"));
         assertThat(result.accountNumber(), is("557788"));
         assertThat(result.payMethod(), is("BankPayMethod"));
@@ -170,7 +168,6 @@ public class OperationsControllerIntegrationTest {
                 "",
                 "",
                 "",
-                0,
                 0,
                 "0",
                 27,
@@ -191,7 +188,7 @@ public class OperationsControllerIntegrationTest {
         EmployeeDTO result = EmployeeConverter.fromEmployee(persister.get(1));
 
         assertThat(result.name(), is("Ted"));
-        assertThat(result.hourlyRate(), is(20.0F));
+        assertThat(result.pay(), is(20.0F));
         assertThat(result.paySchedule(), is("WeeklyPaySchedule"));
         assertThat(result.accountNumber(), is("99944"));
         assertThat(result.payMethod(), is("BankPayMethod"));
@@ -212,11 +209,37 @@ public class OperationsControllerIntegrationTest {
 
         restTemplate.exchange(uriComponents.toUriString(), HttpMethod.GET, entity, String.class);
 
-        EmployeeDTO result = EmployeeConverter.fromEmployee(persister.get(1));
+        EmployeeDTO result = EmployeeConverter.fromEmployee(persister.get(0));
 
-        assertThat(result.name(), is("Ted"));
-        assertThat(result.lastInstruction(), is("Ted has been paid £0.0 into account number :: 99944"));
+        assertThat(result.name(), is("Bob"));
+        assertThat(result.lastInstruction(), is("Bob has been paid $4166.6665 into account number :: 1234"));
     }
 
+    @Test
+    void payEmployeesTwice() {
+        HttpEntity<String> entity = new HttpEntity<>(null, headers);
+        UriComponents uriComponents = UriComponentsBuilder.newInstance()
+                .scheme("http")
+                .host("localhost")
+                .port(port)
+                .path("employees/paynow")
+                .build();
 
+
+        restTemplate.exchange(uriComponents.toUriString(), HttpMethod.GET, entity, String.class);
+
+        EmployeeDTO result = EmployeeConverter.fromEmployee(persister.get(0));
+
+
+        assertThat(result.name(), is("Bob"));
+        assertThat(result.lastInstruction(), is("Bob has been paid $4166.6665 into account number :: 1234"));
+
+        restTemplate.exchange(uriComponents.toUriString(), HttpMethod.GET, entity, String.class);
+
+        result = EmployeeConverter.fromEmployee(persister.get(0));
+
+
+        assertThat(result.name(), is("Bob"));
+        assertThat(result.lastInstruction(), is("Bob has been paid $4166.6665 into account number :: 1234"));
+    }
 }

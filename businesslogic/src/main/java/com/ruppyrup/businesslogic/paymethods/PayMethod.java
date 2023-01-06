@@ -1,4 +1,4 @@
-package com.ruppyrup.core.paymethods;
+package com.ruppyrup.businesslogic.paymethods;
 
 public interface PayMethod {
 

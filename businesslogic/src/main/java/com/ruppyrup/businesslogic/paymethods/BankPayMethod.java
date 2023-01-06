@@ -1,4 +1,4 @@
-package com.ruppyrup.core.paymethods;
+package com.ruppyrup.businesslogic.paymethods;
 
 import lombok.Data;
 
@@ -13,7 +13,7 @@ public class BankPayMethod implements PayMethod {
 
     @Override
     public void pay(String name, float amount) {
-        String instruction = name+ " has been paid £" + amount + " into account number :: " + accountNumber;
+        String instruction = name+ " has been paid $" + amount + " into account number :: " + accountNumber;
         this.lastInstruction = instruction;
         System.out.println(instruction);
     }

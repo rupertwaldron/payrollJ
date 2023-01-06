@@ -10,6 +10,13 @@ plugins {
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
+    mavenLocal()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(18)
+    }
 }
 
 dependencies {
@@ -30,18 +37,9 @@ tasks.named('test') {
 }
 
 tasks.withType(Jar).configureEach {
+//    manifest {
+//        attributes('Main-Class': 'com.ruppyrup.app.PayrollApplication')
+//    }
     archivesBaseName = rootProject.name + '-' + project.name
     archiveVersion = project.version
 }
-
-//tasks.register('copyZips', Copy) {
-//    group 'application'
-//    from tasks.named('jar').map{it.outputs }
-//    into rootProject.file('dest')
-//}
-//
-//tasks.register('copyJars', Copy) {
-//    group 'application'
-//    from configurations.runtimeClasspath
-//    into rootProject.file('dest/libs')
-//}

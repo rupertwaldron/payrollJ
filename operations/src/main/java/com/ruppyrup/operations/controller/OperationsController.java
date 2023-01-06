@@ -1,13 +1,17 @@
 package com.ruppyrup.operations.controller;
 
-import com.ruppyrup.operations.factories.EmployeeFactory;
 import com.ruppyrup.core.models.Employee;
-import com.ruppyrup.core.paytypes.HourlyPayType;
+import com.ruppyrup.operations.factories.EmployeeFactory;
 import com.ruppyrup.operations.requests.EmployeeDTO;
 import com.ruppyrup.operations.utilities.EmployeeConverter;
 import com.ruppyrup.persistance.EmployeePersister;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -45,11 +49,7 @@ public class OperationsController {
     @PutMapping("/employees/{id}")
     public void updateHourlyWages(@PathVariable long id, @RequestBody EmployeeDTO request) {
         Employee employee = employeePersister.get(id);
-        try {
-            ((HourlyPayType) employee.getPayType()).setWeeklyHours(request.weeklyHours());
-        } catch (ClassCastException cce) {
-            throw new RuntimeException("Employee " + id + " is not an hourly employee");
-        }
+        employee.setWeeklyHours(request.weeklyHours());
     }
 
     @GetMapping("/employees/paynow")

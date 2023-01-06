@@ -5,11 +5,9 @@ public record EmployeeDTO(
     String payMethod,
     String paySchedule,
     String payType,
-    float salary,
-    float hourlyRate,
+    float pay,
     String accountNumber,
     int weeklyHours,
     String lastInstruction,
     boolean isUnionMember
-
     ){}

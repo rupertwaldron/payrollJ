@@ -1,4 +1,4 @@
-package com.ruppyrup.core.paytypes;
+package com.ruppyrup.businesslogic.paytypes;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,5 +16,10 @@ public class HourlyPayType implements PayType {
     @Override
     public float calculatePay() {
         return weeklyHours * hourlyRate;
+    }
+
+    @Override
+    public float getPay() {
+        return hourlyRate;
     }
 }
