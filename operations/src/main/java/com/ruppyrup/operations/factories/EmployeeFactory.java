@@ -1,11 +1,8 @@
 package com.ruppyrup.operations.factories;
 
 import com.ruppyrup.core.models.Employee;
-import com.ruppyrup.core.models.EmployeeImpl;
 import com.ruppyrup.operations.requests.EmployeeDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Lookup;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 @Component

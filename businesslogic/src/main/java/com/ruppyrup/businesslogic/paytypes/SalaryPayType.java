@@ -23,11 +23,12 @@ public class SalaryPayType implements PayType {
 
     @Override
     public int getWeeklyHours() {
+        //ToDo ISP violation
         return -1;
     }
 
     @Override
     public void setWeeklyHours(int weeklyHours) {
-        // ISP violation
+        //ToDo ISP violation
     }
 }
