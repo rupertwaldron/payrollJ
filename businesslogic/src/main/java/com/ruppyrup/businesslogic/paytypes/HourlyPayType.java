@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class HourlyPayType implements PayType {
+public class HourlyPayType implements Hourly {
     private int weeklyHours;
     private float hourlyRate;
 

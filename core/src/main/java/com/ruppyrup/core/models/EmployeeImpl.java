@@ -4,15 +4,17 @@ package com.ruppyrup.core.models;
 import com.ruppyrup.businesslogic.paymethods.BankPayMethod;
 import com.ruppyrup.businesslogic.paymethods.PayMethod;
 import com.ruppyrup.businesslogic.payschedules.PaySchedule;
+import com.ruppyrup.businesslogic.payschedules.ScheduleFactory;
+import com.ruppyrup.businesslogic.paytypes.Hourly;
 import com.ruppyrup.businesslogic.paytypes.HourlyPayType;
 import com.ruppyrup.businesslogic.paytypes.PayType;
 import com.ruppyrup.businesslogic.paytypes.SalaryPayType;
-import com.ruppyrup.businesslogic.payschedules.ScheduleFactory;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -80,7 +82,11 @@ public class EmployeeImpl implements Employee {
 
     @Override
     public int getWeeklyHours() {
-        return payType.getWeeklyHours();
+        try {
+            return ((Hourly)payType).getWeeklyHours();
+        } catch (ClassCastException cce) {
+            return -1;
+        }
     }
 
     @Override
@@ -115,7 +121,11 @@ public class EmployeeImpl implements Employee {
 
     @Override
     public void setWeeklyHours(int weeklyHours) {
-        payType.setWeeklyHours(weeklyHours);
+        try {
+            ((Hourly)payType).setWeeklyHours(weeklyHours);
+        } catch (ClassCastException cce) {
+            throw new RuntimeException("You can't set the hours for this type of employee");
+        }
     }
 
     @Override
