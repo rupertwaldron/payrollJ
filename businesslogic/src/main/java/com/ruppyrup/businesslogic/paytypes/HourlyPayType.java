@@ -27,4 +27,12 @@ public class HourlyPayType implements Hourly {
     public void setPay(float pay) {
         this.hourlyRate = pay;
     }
+
+    @Override
+    public String payTypeDetails() {
+        return "HourlyPayType{" +
+                "weeklyHours=" + weeklyHours +
+                ", hourlyRate=" + hourlyRate +
+                '}';
+    }
 }

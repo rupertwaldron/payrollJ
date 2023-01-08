@@ -26,8 +26,14 @@ public class SalaryPayType implements PayType {
         this.salary = pay;
     }
 
+    @Override
+    public String payTypeDetails() {
+        return "SalaryPayType{" +
+                "salary=" + salary +
+                '}';
+    }
 
-//    @Override
+    //    @Override
 //    public int getWeeklyHours() {
 //        //ToDo ISP violation
 //        return -1;

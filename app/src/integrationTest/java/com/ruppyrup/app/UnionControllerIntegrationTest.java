@@ -95,15 +95,19 @@ public class UnionControllerIntegrationTest {
 
         restTemplate.exchange(uriComponents.toUriString(), HttpMethod.PUT, entity, String.class);
 
-        EmployeeDTO result = EmployeeConverter.fromEmployee(persister.get(1));
+        String result = persister.get(1).getEmployeeInfo();
 
-        assertThat(result.name(), is("Ted"));
-        assertThat(result.pay(), is(20.0F));
-        assertThat(result.paySchedule(), is("WeeklyPaySchedule"));
-        assertThat(result.accountNumber(), is("99944"));
-        assertThat(result.payMethod(), is("BankPayMethod"));
-        assertThat(result.payType(), is("HourlyPayType"));
-        assertThat(result.isUnionMember(), is(true));
+        String expected = """
+                {
+                       "name" : Ted,
+                       "paySchedule" : WeeklyPaySchedule,
+                       "payType" : HourlyPayType{weeklyHours=0, hourlyRate=20.0},
+                       "paymentDetails" : BankPayMethod {accountNumber='99944', lastInstruction='null'},
+                       "unionMember" : true
+                }
+                """;
+
+        assertThat(result, is(expected));
 
     }
 }

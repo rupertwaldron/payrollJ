@@ -22,17 +22,18 @@ public class OperationsController {
     }
 
     @GetMapping("/employees")
-    public ResponseEntity<List<EmployeeDTO>> getEmployees() {
-        List<EmployeeDTO> employees = employeePersister.getAll().stream()
-                .map(EmployeeConverter::fromEmployee)
-                .toList();
-        return ResponseEntity.ok(employees);
+    public ResponseEntity<String> getEmployees() {
+        StringBuilder sb = new StringBuilder();
+        employeePersister.getAll().stream()
+                .map(Employee::getEmployeeInfo)
+                .forEach(sb::append);
+        return ResponseEntity.ok(sb.toString());
     }
 
     @GetMapping("/employees/{id}")
-    public ResponseEntity<EmployeeDTO> getEmployee(@PathVariable long id) {
+    public ResponseEntity<String> getEmployee(@PathVariable long id) {
         Employee employee = employeePersister.get(id);
-        return ResponseEntity.ok(EmployeeConverter.fromEmployee(employee));
+        return ResponseEntity.ok(employee.getEmployeeInfo());
     }
 
     @PostMapping("/employees")

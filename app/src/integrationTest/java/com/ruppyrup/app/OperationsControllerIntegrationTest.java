@@ -92,15 +92,26 @@ public class OperationsControllerIntegrationTest {
                 .path("employees")
                 .build();
 
-        ResponseEntity<EmployeeDTO[]> response = restTemplate.exchange(uriComponents.toUriString(), HttpMethod.GET, entity, EmployeeDTO[].class);
-        EmployeeDTO result = response.getBody()[0];
+        ResponseEntity<String> response = restTemplate.exchange(uriComponents.toUriString(), HttpMethod.GET, entity, String.class);
+        String result = response.getBody();
+        String expected = """
+                {
+                       "name" : Bob,
+                       "paySchedule" : MonthlyPaySchedule,
+                       "payType" : SalaryPayType{salary=50000.0},
+                       "paymentDetails" : BankPayMethod {accountNumber='1234', lastInstruction='null'},
+                       "unionMember" : false
+                }
+                {
+                       "name" : Ted,
+                       "paySchedule" : WeeklyPaySchedule,
+                       "payType" : HourlyPayType{weeklyHours=0, hourlyRate=20.0},
+                       "paymentDetails" : BankPayMethod {accountNumber='99944', lastInstruction='null'},
+                       "unionMember" : false
+                }
+                """;
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
-        assertThat(result.name(), is("Bob"));
-        assertThat(result.pay(), is(50000.0F));
-        assertThat(result.paySchedule(), is("MonthlyPaySchedule"));
-        assertThat(result.accountNumber(), is("1234"));
-        assertThat(result.payMethod(), is("BankPayMethod"));
-        assertThat(result.payType(), is("SalaryPayType"));
+        assertThat(result, is(expected));
     }
 
     @Test
@@ -113,15 +124,19 @@ public class OperationsControllerIntegrationTest {
                 .path("employees/0")
                 .build();
 
-        ResponseEntity<EmployeeDTO> response = restTemplate.exchange(uriComponents.toUriString(), HttpMethod.GET, entity, EmployeeDTO.class);
-        EmployeeDTO result = response.getBody();
+        ResponseEntity<String> response = restTemplate.exchange(uriComponents.toUriString(), HttpMethod.GET, entity, String.class);
+        String result = response.getBody();
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
-        assertThat(result.name(), is("Bob"));
-        assertThat(result.pay(), is(50000.0F));
-        assertThat(result.paySchedule(), is("MonthlyPaySchedule"));
-        assertThat(result.accountNumber(), is("1234"));
-        assertThat(result.payMethod(), is("BankPayMethod"));
-        assertThat(result.payType(), is("SalaryPayType"));
+        String expected = """
+                {
+                       "name" : Bob,
+                       "paySchedule" : MonthlyPaySchedule,
+                       "payType" : SalaryPayType{salary=50000.0},
+                       "paymentDetails" : BankPayMethod {accountNumber='1234', lastInstruction='null'},
+                       "unionMember" : false
+                }
+                """;
+        assertThat(result, is(expected));
     }
 
     @Test
@@ -147,18 +162,21 @@ public class OperationsControllerIntegrationTest {
 
         restTemplate.exchange(uriComponents.toUriString(), HttpMethod.POST, entity, EmployeeDTO.class);
 
-        EmployeeDTO result = persister.getAll().stream()
-                .map(EmployeeConverter::fromEmployee)
-                .filter(dto -> "Fred".equals(dto.name()))
+        Employee result = persister.getAll().stream()
+                .filter(dto -> "Fred".equals(dto.getName()))
                 .findFirst()
                 .get();
 
-        assertThat(result.name(), is("Fred"));
-        assertThat(result.pay(), is(10.0F));
-        assertThat(result.paySchedule(), is("WeeklyPaySchedule"));
-        assertThat(result.accountNumber(), is("557788"));
-        assertThat(result.payMethod(), is("BankPayMethod"));
-        assertThat(result.payType(), is("HourlyPayType"));
+        String expected = """
+                {
+                       "name" : Fred,
+                       "paySchedule" : WeeklyPaySchedule,
+                       "payType" : HourlyPayType{weeklyHours=0, hourlyRate=10.0},
+                       "paymentDetails" : BankPayMethod {accountNumber='557788', lastInstruction='null'},
+                       "unionMember" : false
+                }
+                """;
+        assertThat(result.getEmployeeInfo(), is(expected));
     }
 
     @Test
@@ -185,15 +203,20 @@ public class OperationsControllerIntegrationTest {
 
         restTemplate.exchange(uriComponents.toUriString(), HttpMethod.PUT, entity, EmployeeDTO.class);
 
-        EmployeeDTO result = EmployeeConverter.fromEmployee(persister.get(1));
 
-        assertThat(result.name(), is("Ted"));
-        assertThat(result.pay(), is(20.0F));
-        assertThat(result.paySchedule(), is("WeeklyPaySchedule"));
-        assertThat(result.accountNumber(), is("99944"));
-        assertThat(result.payMethod(), is("BankPayMethod"));
-        assertThat(result.payType(), is("HourlyPayType"));
-        assertThat(result.weeklyHours(), is(27));
+        String result = persister.get(1).getEmployeeInfo();
+
+        String expected = """
+                {
+                       "name" : Ted,
+                       "paySchedule" : WeeklyPaySchedule,
+                       "payType" : HourlyPayType{weeklyHours=27, hourlyRate=20.0},
+                       "paymentDetails" : BankPayMethod {accountNumber='99944', lastInstruction='null'},
+                       "unionMember" : false
+                }
+                """;
+
+        assertThat(result, is(expected));
     }
 
     @Test

@@ -25,12 +25,7 @@ public class BankPayMethod implements PayMethod {
 
     @Override
     public String getPaymentDetails() {
-        return accountNumber;
-    }
-
-    @Override
-    public String toString() {
-        return "BankPayMethod{" +
+        return "BankPayMethod {" +
                 "accountNumber='" + accountNumber + '\'' +
                 ", lastInstruction='" + lastInstruction + '\'' +
                 '}';

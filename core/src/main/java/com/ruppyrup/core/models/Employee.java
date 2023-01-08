@@ -9,6 +9,9 @@ public interface Employee {
     String getPayType();
     String getName();
     String getPaymentDetails();
+
+    String getEmployeeInfo();
+
     int getWeeklyHours();
     String getLastPaymentInstruction();
     boolean isUnionMember();

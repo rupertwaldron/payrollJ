@@ -5,7 +5,6 @@ import com.ruppyrup.businesslogic.Factory;
 import com.ruppyrup.businesslogic.paymethods.BankPayMethod;
 import com.ruppyrup.businesslogic.paymethods.PayMethod;
 import com.ruppyrup.businesslogic.payschedules.PaySchedule;
-import com.ruppyrup.businesslogic.payschedules.ScheduleFactory;
 import com.ruppyrup.businesslogic.paytypes.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -83,6 +82,26 @@ public class EmployeeImpl implements Employee {
     @Override
     public String getPaymentDetails() {
         return payMethod.getPaymentDetails();
+    }
+
+    @Override
+    public String getEmployeeInfo() {
+        String a = """
+                {
+                       "name" : %s,
+                       "paySchedule" : %s,
+                       "payType" : %s,
+                       "paymentDetails" : %s,
+                       "unionMember" : %b
+                }
+                """;
+        return String.format(a,
+                name,
+                paySchedule.getClass().getSimpleName(),
+                payType.payTypeDetails(),
+                payMethod.getPaymentDetails(),
+                isUnionMember
+                );
     }
 
     @Override
