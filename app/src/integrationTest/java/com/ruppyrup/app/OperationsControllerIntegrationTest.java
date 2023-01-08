@@ -4,7 +4,6 @@ package com.ruppyrup.app;
 import com.ruppyrup.core.models.Employee;
 import com.ruppyrup.operations.factories.EmployeeFactory;
 import com.ruppyrup.operations.requests.EmployeeDTO;
-import com.ruppyrup.operations.utilities.EmployeeConverter;
 import com.ruppyrup.persistance.EmployeePersister;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -232,10 +231,18 @@ public class OperationsControllerIntegrationTest {
 
         restTemplate.exchange(uriComponents.toUriString(), HttpMethod.GET, entity, String.class);
 
-        EmployeeDTO result = EmployeeConverter.fromEmployee(persister.get(0));
+        String result = persister.get(0).getEmployeeInfo();
 
-        assertThat(result.name(), is("Bob"));
-        assertThat(result.lastInstruction(), is("Bob has been paid $4166.6665 into account number :: 1234"));
+        String expected = """
+                {
+                       "name" : Bob,
+                       "paySchedule" : MonthlyPaySchedule,
+                       "payType" : SalaryPayType{salary=50000.0},
+                       "paymentDetails" : BankPayMethod {accountNumber='1234', lastInstruction='Bob has been paid $4166.6665 into account number :: 1234'},
+                       "unionMember" : false
+                }
+                """;
+        assertThat(result, is(expected));
     }
 
     @Test
@@ -251,18 +258,34 @@ public class OperationsControllerIntegrationTest {
 
         restTemplate.exchange(uriComponents.toUriString(), HttpMethod.GET, entity, String.class);
 
-        EmployeeDTO result = EmployeeConverter.fromEmployee(persister.get(0));
+        String result = persister.get(0).getEmployeeInfo();
 
 
-        assertThat(result.name(), is("Bob"));
-        assertThat(result.lastInstruction(), is("Bob has been paid $4166.6665 into account number :: 1234"));
+        String expected = """
+                {
+                       "name" : Bob,
+                       "paySchedule" : MonthlyPaySchedule,
+                       "payType" : SalaryPayType{salary=50000.0},
+                       "paymentDetails" : BankPayMethod {accountNumber='1234', lastInstruction='Bob has been paid $4166.6665 into account number :: 1234'},
+                       "unionMember" : false
+                }
+                """;
+        assertThat(result, is(expected));
 
         restTemplate.exchange(uriComponents.toUriString(), HttpMethod.GET, entity, String.class);
 
-        result = EmployeeConverter.fromEmployee(persister.get(0));
+        result = persister.get(0).getEmployeeInfo();
 
 
-        assertThat(result.name(), is("Bob"));
-        assertThat(result.lastInstruction(), is("Bob has been paid $4166.6665 into account number :: 1234"));
+        expected = """
+                {
+                       "name" : Bob,
+                       "paySchedule" : MonthlyPaySchedule,
+                       "payType" : SalaryPayType{salary=50000.0},
+                       "paymentDetails" : BankPayMethod {accountNumber='1234', lastInstruction='Bob has been paid $4166.6665 into account number :: 1234'},
+                       "unionMember" : false
+                }
+                """;
+        assertThat(result, is(expected));
     }
 }

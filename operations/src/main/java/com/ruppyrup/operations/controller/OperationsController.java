@@ -3,12 +3,9 @@ package com.ruppyrup.operations.controller;
 import com.ruppyrup.core.models.Employee;
 import com.ruppyrup.operations.factories.EmployeeFactory;
 import com.ruppyrup.operations.requests.EmployeeDTO;
-import com.ruppyrup.operations.utilities.EmployeeConverter;
 import com.ruppyrup.persistance.Persister;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 public class OperationsController {

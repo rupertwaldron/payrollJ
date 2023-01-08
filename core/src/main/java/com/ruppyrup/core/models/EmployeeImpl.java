@@ -55,33 +55,8 @@ public class EmployeeImpl implements Employee {
     }
 
     @Override
-    public float getPay() {
-        return payType.getPay();
-    }
-
-    @Override
-    public String getPayMethod() {
-        return payMethod.getClass().getSimpleName();
-    }
-
-    @Override
-    public String getPaySchedule() {
-        return paySchedule.getClass().getSimpleName();
-    }
-
-    @Override
-    public String getPayType() {
-        return payType.getClass().getSimpleName();
-    }
-
-    @Override
     public String getName() {
         return name;
-    }
-
-    @Override
-    public String getPaymentDetails() {
-        return payMethod.getPaymentDetails();
     }
 
     @Override
@@ -102,25 +77,6 @@ public class EmployeeImpl implements Employee {
                 payMethod.getPaymentDetails(),
                 isUnionMember
                 );
-    }
-
-    @Override
-    public int getWeeklyHours() {
-        try {
-            return ((Hourly)payType).getWeeklyHours();
-        } catch (ClassCastException cce) {
-            return -1;
-        }
-    }
-
-    @Override
-    public String getLastPaymentInstruction() {
-        return payMethod.getLastInstruction();
-    }
-
-    @Override
-    public boolean isUnionMember() {
-        return isUnionMember;
     }
 
     @Override

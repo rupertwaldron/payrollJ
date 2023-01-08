@@ -3,7 +3,6 @@ package com.ruppyrup.app;
 import com.ruppyrup.core.models.Employee;
 import com.ruppyrup.operations.factories.EmployeeFactory;
 import com.ruppyrup.operations.requests.EmployeeDTO;
-import com.ruppyrup.operations.utilities.EmployeeConverter;
 import com.ruppyrup.persistance.EmployeePersister;
 import com.ruppyrup.union.requests.UnionRequest;
 import org.junit.jupiter.api.AfterEach;
