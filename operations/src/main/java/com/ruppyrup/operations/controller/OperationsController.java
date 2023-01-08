@@ -4,24 +4,19 @@ import com.ruppyrup.core.models.Employee;
 import com.ruppyrup.operations.factories.EmployeeFactory;
 import com.ruppyrup.operations.requests.EmployeeDTO;
 import com.ruppyrup.operations.utilities.EmployeeConverter;
-import com.ruppyrup.persistance.EmployeePersister;
+import com.ruppyrup.persistance.Persister;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 public class OperationsController {
 
-    private final EmployeePersister employeePersister;
+    private final Persister<Employee> employeePersister;
     private final EmployeeFactory employeeFactory;
 
-    public OperationsController(EmployeePersister employeePersister, EmployeeFactory employeeFactory) {
+    public OperationsController(Persister<Employee>  employeePersister, EmployeeFactory employeeFactory) {
         this.employeePersister = employeePersister;
         this.employeeFactory = employeeFactory;
     }

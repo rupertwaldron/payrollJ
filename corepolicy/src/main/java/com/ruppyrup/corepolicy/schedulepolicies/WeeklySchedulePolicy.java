@@ -8,11 +8,6 @@ public class WeeklySchedulePolicy implements SchedulePolicy {
     private int weeklySchedule = 7;
 
     @Override
-    public String getType() {
-        return "weekly";
-    }
-
-    @Override
     public int fetchPolicyData() {
         return weeklySchedule;
     }

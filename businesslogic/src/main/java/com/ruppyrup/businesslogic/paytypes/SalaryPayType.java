@@ -1,15 +1,15 @@
 package com.ruppyrup.businesslogic.paytypes;
 
 import lombok.Data;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-@Data
+@Component
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class SalaryPayType implements PayType {
 
     private float salary;
-
-    public SalaryPayType(float salary) {
-        this.salary = salary;
-    }
 
     @Override
     public float calculatePay() {
@@ -20,6 +20,12 @@ public class SalaryPayType implements PayType {
     public float getPay() {
         return salary;
     }
+
+    @Override
+    public void setPay(float pay) {
+        this.salary = pay;
+    }
+
 
 //    @Override
 //    public int getWeeklyHours() {

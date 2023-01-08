@@ -1,14 +1,12 @@
 package com.ruppyrup.core.models;
 
 
+import com.ruppyrup.businesslogic.Factory;
 import com.ruppyrup.businesslogic.paymethods.BankPayMethod;
 import com.ruppyrup.businesslogic.paymethods.PayMethod;
 import com.ruppyrup.businesslogic.payschedules.PaySchedule;
 import com.ruppyrup.businesslogic.payschedules.ScheduleFactory;
-import com.ruppyrup.businesslogic.paytypes.Hourly;
-import com.ruppyrup.businesslogic.paytypes.HourlyPayType;
-import com.ruppyrup.businesslogic.paytypes.PayType;
-import com.ruppyrup.businesslogic.paytypes.SalaryPayType;
+import com.ruppyrup.businesslogic.paytypes.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -26,8 +24,9 @@ import java.time.LocalDateTime;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class EmployeeImpl implements Employee {
 
-    @Autowired
-    private ScheduleFactory scheduleFactory;
+    private Factory<PaySchedule> scheduleFactory;
+
+    private Factory<PayType> payTypeFactory;
 
     private String name;
     private Long id;
@@ -38,6 +37,12 @@ public class EmployeeImpl implements Employee {
 
     public EmployeeImpl(String name) {
         this.name = name;
+    }
+
+    @Autowired
+    public EmployeeImpl(Factory<PaySchedule> scheduleFactory, Factory<PayType> payTypeFactory) {
+        this.scheduleFactory = scheduleFactory;
+        this.payTypeFactory = payTypeFactory;
     }
 
     @Override
@@ -100,23 +105,13 @@ public class EmployeeImpl implements Employee {
     }
 
     @Override
-    public void setBankPayMethod(String accountNumber) {
+    public void setPayMethod(String accountNumber) {
         payMethod = new BankPayMethod(accountNumber);
     }
 
     @Override
-    public void setSalaryPayType(float salary) {
-        payType = new SalaryPayType(salary);
-    }
-
-    @Override
-    public void setHourlyPayType(float hourlyRate) {
-        payType = new HourlyPayType(hourlyRate);
-    }
-
-    @Override
     public void setPaySchedule(String type) {
-        paySchedule = scheduleFactory.createPayScheduleOfType(type);
+        paySchedule = scheduleFactory.retreive(type);
     }
 
     @Override
@@ -141,5 +136,11 @@ public class EmployeeImpl implements Employee {
     @Override
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public void setPayType(String payType, float pay) {
+        this.payType = payTypeFactory.retreive(payType);
+        this.payType.setPay(pay);
     }
 }

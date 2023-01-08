@@ -46,9 +46,9 @@ public class UnionControllerIntegrationTest {
     void beforeEach() {
         EmployeeDTO dto1 = new EmployeeDTO(
                 "Bob",
-                "",
-                "",
+                "bank",
                 "monthly",
+                "salary",
                 50000f,
                 "1234",
                 27,
@@ -57,9 +57,9 @@ public class UnionControllerIntegrationTest {
         );
         EmployeeDTO dto2 = new EmployeeDTO(
                 "Ted",
-                "",
-                "",
+                "bank",
                 "weekly",
+                "hourlyRate",
                 20.0f,
                 "99944",
                 11,

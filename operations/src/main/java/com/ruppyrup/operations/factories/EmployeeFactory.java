@@ -15,14 +15,9 @@ public class EmployeeFactory {
 
         Employee employee = getEmployee();
         employee.setName(employeeRequest.name());
-        employee.setBankPayMethod(employeeRequest.accountNumber());
-        employee.setPaySchedule(employeeRequest.payType());
-
-        switch (employeeRequest.payType()) {
-            case "monthly" -> employee.setSalaryPayType(employeeRequest.pay());
-            case "weekly" -> employee.setHourlyPayType(employeeRequest.pay());
-            default -> throw new RuntimeException("Error creating employee " + employeeRequest);
-        }
+        employee.setPayMethod(employeeRequest.accountNumber());
+        employee.setPaySchedule(employeeRequest.paySchedule());
+        employee.setPayType(employeeRequest.payType(), employeeRequest.pay());
         return employee;
     }
 

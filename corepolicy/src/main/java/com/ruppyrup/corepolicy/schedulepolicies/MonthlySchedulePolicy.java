@@ -8,11 +8,6 @@ public class MonthlySchedulePolicy implements SchedulePolicy {
     private int monthlySchedule = 31;
 
     @Override
-    public String getType() {
-        return "monthly";
-    }
-
-    @Override
     public int fetchPolicyData() {
         return monthlySchedule;
     }

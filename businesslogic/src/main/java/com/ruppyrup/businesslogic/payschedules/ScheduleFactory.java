@@ -1,12 +1,13 @@
 package com.ruppyrup.businesslogic.payschedules;
 
+import com.ruppyrup.businesslogic.Factory;
 import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ScheduleFactory {
+public class ScheduleFactory implements Factory<PaySchedule> {
 
-    public PaySchedule createPayScheduleOfType(String type) {
+    public PaySchedule retreive(String type) {
         return switch (type) {
             case "monthly" -> getMonthlyPaySchedule();
             case "weekly" -> getWeeklyPaySchedule();

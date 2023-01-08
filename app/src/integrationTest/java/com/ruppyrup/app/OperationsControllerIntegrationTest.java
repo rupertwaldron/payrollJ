@@ -46,9 +46,9 @@ public class OperationsControllerIntegrationTest {
     void beforeEach() {
         EmployeeDTO dto1 = new EmployeeDTO(
                 "Bob",
-                "",
-                "",
+                "bank",
                 "monthly",
+                "salary",
                 50000f,
                 "1234",
                 27,
@@ -57,9 +57,9 @@ public class OperationsControllerIntegrationTest {
         );
         EmployeeDTO dto2 = new EmployeeDTO(
                 "Ted",
-                "",
-                "",
+                "bank",
                 "weekly",
+                "hourlyRate",
                 20.0f,
                 "99944",
                 11,
@@ -128,9 +128,9 @@ public class OperationsControllerIntegrationTest {
     void saveEmployee() {
         EmployeeDTO request = new EmployeeDTO(
                 "Fred",
-                "",
-                "",
+                "bank",
                 "weekly",
+                "hourlyRate",
                 10.0f,
                 "557788",
                 40,
